@@ -1,6 +1,8 @@
 # AWS Tag Explorer
 
-This project provides Python3 sample code to:
+Extract all AWS tags within an account. Use SQL to query them.
+
+Python3 scripts are provided to:
 
 1. Extract Tag information for all resources within an AWS account (into a CSV file which is then uploaded to an Amazon S3 bucket)
 2. Query Tag information from the CSV file using ```SQL``` queries
