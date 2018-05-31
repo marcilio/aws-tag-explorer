@@ -30,24 +30,6 @@ Resources:
         #     - tag:GetResources
         #     Resource: "*"
         #     Effect: Allow        
-        #   - Action:
-        #     - s3:ListBucket
-        #     - s3:GetBucketLocation
-        #     - s3:GetObjectVersion
-        #     - s3:PutObject
-        #     - s3:GetLifecycleConfiguration
-        #     - s3:PutLifecycleConfiguration
-        #     - tag:GetResources
-        #     Resource:
-        #     - Fn::Sub:
-        #       - arn:${AWS::Partition}:s3:::${bucketName}
-        #       - bucketName:
-        #           Ref: S3TagBucket
-        #     - Fn::Sub:
-        #       - arn:${AWS::Partition}:s3:::${bucketName}/*
-        #       - bucketName:
-        #           Ref: S3TagBucket
-        #     Effect: Allow
 Outputs:
   AWSTagsExtractorFunction:
     Description: AWS Tags Extractor Serverless Function

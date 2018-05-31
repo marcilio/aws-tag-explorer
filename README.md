@@ -27,7 +27,15 @@ Due to a limitation of the AWS Serverless Repository, after you deploy this Serv
 
 ## Extract Tags
 
-Run Lambda function ```AWSTaggedResourcesExtractor``` manually or add a regular trigger via CloudWatch events. Once triggered, the Lambda function will generate a CSV file (input parameter) under the S3 bucket (input parameter) specified to store all tags extracted from the account where the Lambda resides in.
+Navigate to the AWS Lambda Console and run provided Lambda function ```AWSTaggedResourcesExtractor``` (alternatively, add a regular trigger via CloudWatch events). The Lambda function will generate a CSV file (name provided during stack creation) under the S3 bucket (name provided during stack creation) specified to store all tags extracted from the AWS account where the Lambda resides in.
+
+You can also invoke the extraction process locally if you have access to the code like this:
+
+```bash
+export S3TagBucket="S3-BUCKET-TO-HOLD-TAGS-FILE"
+export S3TagKey="mytags.csv"  # replace with any file name you wish
+python aws-tags-extractor.py 
+```
 
 ## Query Tags
 
