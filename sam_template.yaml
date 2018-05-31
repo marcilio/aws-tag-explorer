@@ -1,0 +1,57 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  S3TagBucket:
+    Description: "S3 Bucket that will store the CSV file containing all tagged resources"
+    Type: String
+  S3TagKey:
+    Description: "Name of the S3 key (eg, mytags.csv) corresponding to the file that will store all tagged resources"
+    Type: String
+    Default: "mytags.csv"
+Resources:
+  AWSTagsExtractor:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: AWSTagsExtractor
+      Handler: aws-tags-extractor.handler
+      Runtime: python3.6
+      CodeUri: ./
+      Timeout: 300
+      Environment:
+        Variables:
+          S3TagBucket: !Ref S3TagBucket
+          S3TagKey: !Ref S3TagKey
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Ref S3TagBucket
+        # - Statement:
+        #   - Action:
+        #     - tag:GetResources
+        #     Resource: "*"
+        #     Effect: Allow        
+        #   - Action:
+        #     - s3:ListBucket
+        #     - s3:GetBucketLocation
+        #     - s3:GetObjectVersion
+        #     - s3:PutObject
+        #     - s3:GetLifecycleConfiguration
+        #     - s3:PutLifecycleConfiguration
+        #     - tag:GetResources
+        #     Resource:
+        #     - Fn::Sub:
+        #       - arn:${AWS::Partition}:s3:::${bucketName}
+        #       - bucketName:
+        #           Ref: S3TagBucket
+        #     - Fn::Sub:
+        #       - arn:${AWS::Partition}:s3:::${bucketName}/*
+        #       - bucketName:
+        #           Ref: S3TagBucket
+        #     Effect: Allow
+Outputs:
+  AWSTagsExtractorFunction:
+    Description: AWS Tags Extractor Serverless Function
+    Value:
+      Fn::GetAtt:
+      - AWSTagsExtractor
+      - Arn

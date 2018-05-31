@@ -4,7 +4,7 @@ import boto3
 # Examples:
 #
 # 1) Return the resource ARNs of all route tables containing a tag named 'aws:cloudformation:stack-name'
-# python aws-tagged-resources-querier.py \
+# python aws-tags-querier.py \
 #      --bucket mybucket \
 #      --key mytaggedresources-files.csv \
 #      --query "select ResourceArn from s3object s \
@@ -12,7 +12,7 @@ import boto3
 #                 and s.TagKey='aws:cloudformation:stack-name'"
 #
 # 2) Return the resource ARNs of all resources created by a stack named 'my-stack'
-# python aws-tagged-resources-querier.py \
+# python aws-tags-querier.py \
 #      --bucket mybucket \
 #      --key mytaggedresources-files.csv \
 #      --query "select ResourceArn from s3object s \

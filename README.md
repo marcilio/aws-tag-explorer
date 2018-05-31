@@ -1,42 +1,45 @@
 # AWS Tag Explorer
 
-Extract all AWS tags within an account. Use SQL to query them.
+Extract all tags from your AWS account into a S3 file. Query tags file with SQL.
 
-Python3 scripts are provided to:
+This application is available on the [AWS Serverless Repository](https://aws.amazon.com/serverless/serverlessrepo/) for immediate use.
 
-1. Extract Tag information for all resources within an AWS account (into a CSV file which is then uploaded to an Amazon S3 bucket)
-2. Query Tag information from the CSV file using ```SQL``` queries
+# Resources provided:
 
-## Requirements
+1. Lambda function to extract Tag information for all resources within an AWS account and upload the tags (via a CSV file) into an S3 bucket
+2. A Python3 script to query via SQL the tag CSV file stored in S3
 
-This project was built on a MacOS environment with Python3 installed.
 
-## Extract Tagged Resources
+# Important
 
-Here is how the extract process can be triggered for a given QA account (assuming that there is a QA_AWS_ACCOUNT AWS profile defined under your ```~/.aws/credentials``` file).
+Due to a limitation of the AWS Serverless Repository, after you deploy this Serverless App you'll have to manually add the following policy to the Lambda role in order to allow the Lambda function to fetch resource tags.
 
-```bash
-export AWS_PROFILE=QA_AWS_ACCOUNT
-python aws-tagged-resources-extractor.py --output /tmp/qa-tagged-resources.csv
+```json
+{   
+    "Version" : "2012-10-17",   
+    "Statement" : [{      
+       "Effect" : "Allow",      
+       "Action" : "tag:GetResources",      
+       "Resource" : "*"      
+    }] 
+}
 ```
 
-This will extract all tags (Tagged resource ARN, Tag Name, Tag Value) in your QA account into a CSV file.
+## Extract Tags
 
-## Query Tagged Resources
+Run Lambda function ```AWSTaggedResourcesExtractor``` manually or add a regular trigger via CloudWatch events. Once triggered, the Lambda function will generate a CSV file (input parameter) under the S3 bucket (input parameter) specified to store all tags extracted from the account where the Lambda resides in.
 
-First, upload generated file ```/tmp/qa-tagged-resources.csv``` to an S3 bucket of your choice like this: 
+## Query Tags
 
-```bash
-aws s3 cp /tmp/qa-tagged-resources.csv s3://[REPLACE-WITH-YOUR-S3-BUCKET]
-```
+The CSV file containing tag information contains the following columns: ```ResourceArn```, ```TagKey```, ```TagValue```. Run, SQL queries against the CSV file using the provided ```aws-tags-querier.py ``` Python3 script.
 
-The CSV file contains the following columns: ```ResourceArn```, ```TagKey```, ```TagValue```. Run, SQL queries against the CSV file in S3 like this:
+Here's an example:
 
 Query: __Return the resource ARNs of all route tables containing a tag named 'aws:cloudformation:stack-name' in the ```QA``` AWS account__
 
 ```bash
 export AWS_PROFILE= CENTRAL_AWS_ACCOUNT
-python aws-tagged-resources-querier \
+python aws-tags-querier \
      --bucket [REPLACE-WITH-YOUR-S3-BUCKET] \
      --key qa-tagged-resources.csv \
      --query "select ResourceArn from s3object s \
@@ -44,4 +47,4 @@ python aws-tagged-resources-querier \
                 and s.TagKey='aws:cloudformation:stack-name'"
 ```
 
-Happy Tagging!
+__Happy Tagging!__
