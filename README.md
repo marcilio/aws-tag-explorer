@@ -46,10 +46,10 @@ Here's an example:
 Query: __Return the resource ARNs of all route tables containing a tag named 'aws:cloudformation:stack-name' in the ```QA``` AWS account__
 
 ```bash
-export AWS_PROFILE= CENTRAL_AWS_ACCOUNT
+export AWS_PROFILE=QA_AWS_ACCOUNT
 python aws-tags-querier \
      --bucket [REPLACE-WITH-YOUR-S3-BUCKET] \
-     --key qa-tagged-resources.csv \
+     --key mytags.csv \
      --query "select ResourceArn from s3object s \
               where s.ResourceArn like 'arn:aws:ec2%route-table%' \
                 and s.TagKey='aws:cloudformation:stack-name'"
