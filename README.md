@@ -4,6 +4,10 @@ Extract all tags from your AWS account into a S3 file. Query tags file with SQL.
 
 This application is available on the [AWS Serverless Repository](https://aws.amazon.com/serverless/serverlessrepo/) for immediate use.
 
+For in-depth details on this solution, please check the official [AWS Architecture blog post](https://aws.amazon.com/blogs/architecture/how-to-efficiently-extract-and-query-tagged-resources-using-the-aws-resource-tagging-api-and-s3-select-sql/)
+
+![Extract and Query Tagged Resources Using the AWS Resource Tagging API and S3 Select (SQL)](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2018/08/22/taggings3arch-1024x581.png)
+
 # Resources provided:
 
 1. Lambda function to extract Tag information for all resources within an AWS account and upload the tags (via a CSV file) into an S3 bucket
