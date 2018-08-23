@@ -1,6 +1,6 @@
 # AWS Tag Explorer
 
-Extract all tags from your AWS account into a S3 file. Query tags file with SQL.
+Extract tagged resources from your AWS account into a S3. Query them using SQL.
 
 This application is available on the [AWS Serverless Repository](https://aws.amazon.com/serverless/serverlessrepo/) for immediate use.
 
